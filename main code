@@ -1,0 +1,1380 @@
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+
+export default function App() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Daily Log</Text>
+        <Text style={styles.subtitle}>Track your gut health</Text>
+      </View>
+
+      <View style={styles.centerContent}>
+        {/* We will add a chart or streak counter here later */}
+        <Text style={styles.placeholderText}>Ready for today's entry?</Text>
+      </View>
+
+      <TouchableOpacity style={styles.logButton} onPress={() => alert('Opening tracker!')}>
+        <Text style={styles.buttonText}>+ Log Drop-off</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9F9', // A very soft, minimal off-white
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  header: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2C3E50',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#7F8C8D',
+    marginTop: 5,
+  },
+  centerContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderText: {
+    fontSize: 18,
+    color: '#BDC3C7',
+    fontStyle: 'italic',
+  },
+  logButton: {
+    backgroundColor: '#A3B18A', // A calm, earthy sage green
+    paddingVertical: 18,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3, // for Android shadow
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+
+const BRISTOL_TYPES = [
+  { id: 1, name: 'Type 1', desc: 'Hard lumps, like nuts' },
+  { id: 2, name: 'Type 2', desc: 'Lumpy & sausage-like' },
+  { id: 3, name: 'Type 3', desc: 'Sausage with cracks' },
+  { id: 4, name: 'Type 4', desc: 'Smooth & soft snake' },
+  { id: 5, name: 'Type 5', desc: 'Soft blobs, clear edges' },
+  { id: 6, name: 'Type 6', desc: 'Mushy & fluffy pieces' },
+  { id: 7, name: 'Type 7', desc: 'Entirely liquid' },
+];
+
+export default function App() {
+  const [selectedType, setSelectedType] = useState(null);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Daily Log</Text>
+        <Text style={styles.subtitle}>Track your gut health</Text>
+      </View>
+
+      <View style={styles.content}>
+        <Text style={styles.sectionTitle}>Consistency</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+          {BRISTOL_TYPES.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.typeCard, 
+                selectedType === item.id && styles.selectedCard
+              ]}
+              onPress={() => setSelectedType(item.id)}
+            >
+              <Text style={[styles.typeName, selectedType === item.id && styles.selectedText]}>
+                {item.name}
+              </Text>
+              <Text style={[styles.typeDesc, selectedType === item.id && styles.selectedText]}>
+                {item.desc}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      <TouchableOpacity style={styles.logButton} onPress={() => alert(`Logged: Type ${selectedType || '?'}`)}>
+        <Text style={styles.buttonText}>Save Entry</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9F9', 
+    justifyContent: 'space-between',
+    paddingVertical: 40,
+  },
+  header: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2C3E50',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#7F8C8D',
+    marginTop: 5,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 20, // To give the scroll a nice starting indent
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2C3E50',
+    marginBottom: 15,
+  },
+  scrollContainer: {
+    paddingRight: 20,
+    alignItems: 'center',
+  },
+  typeCard: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    borderRadius: 15,
+    marginRight: 15,
+    width: 140,
+    height: 120,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedCard: {
+    backgroundColor: '#A3B18A', // Our calming sage green
+    borderColor: '#8A9A73',
+  },
+  typeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#34495E',
+    marginBottom: 5,
+  },
+  typeDesc: {
+    fontSize: 13,
+    color: '#7F8C8D',
+    lineHeight: 18,
+  },
+  selectedText: {
+    color: '#FFFFFF',
+  },
+  logButton: {
+    backgroundColor: '#2C3E50', // Swapped to a dark navy for the main action
+    paddingVertical: 18,
+    marginHorizontal: 40,
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+
+const BRISTOL_TYPES = [
+  { id: 1, name: 'Type 1', desc: 'Hard lumps, like nuts' },
+  { id: 2, name: 'Type 2', desc: 'Lumpy & sausage-like' },
+  { id: 3, name: 'Type 3', desc: 'Sausage with cracks' },
+  { id: 4, name: 'Type 4', desc: 'Smooth & soft snake' },
+  { id: 5, name: 'Type 5', desc: 'Soft blobs, clear edges' },
+  { id: 6, name: 'Type 6', desc: 'Mushy & fluffy pieces' },
+  { id: 7, name: 'Type 7', desc: 'Entirely liquid' },
+];
+
+const PAIN_LEVELS = [
+  { id: 0, label: 'None', emoji: '😌' },
+  { id: 1, label: 'Mild', emoji: '😕' },
+  { id: 2, label: 'Medium', emoji: '😣' },
+  { id: 3, label: 'Bad', emoji: '😫' },
+];
+
+export default function App() {
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedPain, setSelectedPain] = useState(null);
+
+  const handleSave = () => {
+    alert(`Logged!\nType: ${selectedType || 'None'}\nPain: ${selectedPain !== null ? selectedPain : 'None'}`);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Daily Log</Text>
+        <Text style={styles.subtitle}>Track your gut health</Text>
+      </View>
+
+      <View style={styles.content}>
+        {/* Consistency Section */}
+        <Text style={styles.sectionTitle}>Consistency</Text>
+        <View style={styles.bristolContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+            {BRISTOL_TYPES.map((item) => (
+              <TouchableOpacity 
+                key={item.id} 
+                style={[
+                  styles.typeCard, 
+                  selectedType === item.id && styles.selectedCard
+                ]}
+                onPress={() => setSelectedType(item.id)}
+              >
+                <Text style={[styles.typeName, selectedType === item.id && styles.selectedText]}>
+                  {item.name}
+                </Text>
+                <Text style={[styles.typeDesc, selectedType === item.id && styles.selectedText]}>
+                  {item.desc}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Pain Level Section */}
+        <Text style={styles.sectionTitle}>Pain / Discomfort</Text>
+        <View style={styles.painContainer}>
+          {PAIN_LEVELS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.painCard, 
+                selectedPain === item.id && styles.selectedPainCard
+              ]}
+              onPress={() => setSelectedPain(item.id)}
+            >
+              <Text style={styles.emojiText}>{item.emoji}</Text>
+              <Text style={[styles.painLabel, selectedPain === item.id && styles.selectedText]}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      <TouchableOpacity style={styles.logButton} onPress={handleSave}>
+        <Text style={styles.buttonText}>Save Entry</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9F9', 
+    justifyContent: 'space-between',
+    paddingVertical: 40,
+  },
+  header: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2C3E50',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#7F8C8D',
+    marginTop: 5,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  bristolContainer: {
+    height: 140, // Keeps the layout from jumping around
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2C3E50',
+    marginBottom: 15,
+    marginLeft: 20,
+  },
+  scrollContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+  },
+  typeCard: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    borderRadius: 15,
+    marginRight: 15,
+    width: 140,
+    height: 120,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedCard: {
+    backgroundColor: '#A3B18A', 
+    borderColor: '#8A9A73',
+  },
+  typeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#34495E',
+    marginBottom: 5,
+  },
+  typeDesc: {
+    fontSize: 13,
+    color: '#7F8C8D',
+    lineHeight: 18,
+  },
+  painContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  painCard: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    alignItems: 'center',
+    width: '22%', // Spaces them out evenly
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedPainCard: {
+    backgroundColor: '#D4A373', // A warm, muted terracotta color for the pain selection
+    borderColor: '#BC8A5F',
+  },
+  emojiText: {
+    fontSize: 24,
+    marginBottom: 5,
+  },
+  painLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#7F8C8D',
+  },
+  selectedText: {
+    color: '#FFFFFF',
+  },
+  logButton: {
+    backgroundColor: '#2C3E50', 
+    paddingVertical: 18,
+    marginHorizontal: 40,
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+
+const BRISTOL_TYPES = [
+  { id: 1, name: 'Type 1', desc: 'Hard lumps, like nuts' },
+  { id: 2, name: 'Type 2', desc: 'Lumpy & sausage-like' },
+  { id: 3, name: 'Type 3', desc: 'Sausage with cracks' },
+  { id: 4, name: 'Type 4', desc: 'Smooth & soft snake' },
+  { id: 5, name: 'Type 5', desc: 'Soft blobs, clear edges' },
+  { id: 6, name: 'Type 6', desc: 'Mushy & fluffy pieces' },
+  { id: 7, name: 'Type 7', desc: 'Entirely liquid' },
+];
+
+const PAIN_LEVELS = [
+  { id: 0, label: 'None', emoji: '😌' },
+  { id: 1, label: 'Mild', emoji: '😕' },
+  { id: 2, label: 'Medium', emoji: '😣' },
+  { id: 3, label: 'Bad', emoji: '😫' },
+];
+
+const STOOL_COLORS = [
+  { id: 'brown', hex: '#8B5A2B', label: 'Brown' },
+  { id: 'green', hex: '#7A9A5B', label: 'Green' },
+  { id: 'yellow', hex: '#D4B856', label: 'Yellow' },
+  { id: 'pale', hex: '#D2C1B0', label: 'Pale' },
+  { id: 'black', hex: '#3B3C36', label: 'Black' },
+  { id: 'red', hex: '#C25A5A', label: 'Red' },
+];
+
+export default function App() {
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedPain, setSelectedPain] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  const handleSave = () => {
+    alert(`Logged!\nType: ${selectedType || 'None'}\nPain: ${selectedPain !== null ? selectedPain : 'None'}\nColor: ${selectedColor || 'None'}`);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Daily Log</Text>
+        <Text style={styles.subtitle}>Track your gut health</Text>
+      </View>
+
+      <ScrollView style={styles.scrollBody} showsVerticalScrollIndicator={false}>
+        {/* Consistency Section */}
+        <Text style={styles.sectionTitle}>Consistency</Text>
+        <View style={styles.bristolContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+            {BRISTOL_TYPES.map((item) => (
+              <TouchableOpacity 
+                key={item.id} 
+                style={[
+                  styles.typeCard, 
+                  selectedType === item.id && styles.selectedCard
+                ]}
+                onPress={() => setSelectedType(item.id)}
+              >
+                <Text style={[styles.typeName, selectedType === item.id && styles.selectedText]}>
+                  {item.name}
+                </Text>
+                <Text style={[styles.typeDesc, selectedType === item.id && styles.selectedText]}>
+                  {item.desc}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Pain Level Section */}
+        <Text style={styles.sectionTitle}>Pain / Discomfort</Text>
+        <View style={styles.painContainer}>
+          {PAIN_LEVELS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.painCard, 
+                selectedPain === item.id && styles.selectedPainCard
+              ]}
+              onPress={() => setSelectedPain(item.id)}
+            >
+              <Text style={styles.emojiText}>{item.emoji}</Text>
+              <Text style={[styles.painLabel, selectedPain === item.id && styles.selectedText]}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Color Section */}
+        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Color</Text>
+        <View style={styles.colorContainer}>
+          {STOOL_COLORS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.colorCircle, 
+                { backgroundColor: item.hex },
+                selectedColor === item.id && styles.selectedColorCircle
+              ]}
+              onPress={() => setSelectedColor(item.id)}
+            />
+          ))}
+        </View>
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.logButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save Entry</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9F9', 
+  },
+  header: {
+    marginTop: 60,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2C3E50',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#7F8C8D',
+    marginTop: 5,
+  },
+  scrollBody: {
+    flex: 1,
+  },
+  bristolContainer: {
+    height: 140, 
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2C3E50',
+    marginBottom: 15,
+    marginLeft: 20,
+  },
+  scrollContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+  },
+  typeCard: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    borderRadius: 15,
+    marginRight: 15,
+    width: 140,
+    height: 120,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedCard: {
+    backgroundColor: '#A3B18A', 
+    borderColor: '#8A9A73',
+  },
+  typeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#34495E',
+    marginBottom: 5,
+  },
+  typeDesc: {
+    fontSize: 13,
+    color: '#7F8C8D',
+    lineHeight: 18,
+  },
+  painContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  painCard: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    alignItems: 'center',
+    width: '22%', 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedPainCard: {
+    backgroundColor: '#D4A373', 
+    borderColor: '#BC8A5F',
+  },
+  emojiText: {
+    fontSize: 24,
+    marginBottom: 5,
+  },
+  painLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#7F8C8D',
+  },
+  selectedText: {
+    color: '#FFFFFF',
+  },
+  colorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  colorCircle: {
+    width: 45,
+    height: 45,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    borderWidth: 3,
+    borderColor: 'transparent',
+  },
+  selectedColorCircle: {
+    borderColor: '#2C3E50', // A dark navy ring to show it's selected
+    transform: [{ scale: 1.1 }], // Pops the circle out slightly when tapped
+  },
+  footer: {
+    paddingVertical: 20,
+    paddingBottom: 40,
+    backgroundColor: '#F7F9F9',
+  },
+  logButton: {
+    backgroundColor: '#2C3E50', 
+    paddingVertical: 18,
+    marginHorizontal: 40,
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+
+const BRISTOL_TYPES = [
+  { id: 1, name: 'Type 1', desc: 'Hard lumps, like nuts' },
+  { id: 2, name: 'Type 2', desc: 'Lumpy & sausage-like' },
+  { id: 3, name: 'Type 3', desc: 'Sausage with cracks' },
+  { id: 4, name: 'Type 4', desc: 'Smooth & soft snake' },
+  { id: 5, name: 'Type 5', desc: 'Soft blobs, clear edges' },
+  { id: 6, name: 'Type 6', desc: 'Mushy & fluffy pieces' },
+  { id: 7, name: 'Type 7', desc: 'Entirely liquid' },
+];
+
+const AMOUNTS = [
+  { id: 'small', label: 'Small' },
+  { id: 'medium', label: 'Regular' },
+  { id: 'large', label: 'Large' },
+];
+
+const PAIN_LEVELS = [
+  { id: 0, label: 'None', emoji: '😌' },
+  { id: 1, label: 'Mild', emoji: '😕' },
+  { id: 2, label: 'Medium', emoji: '😣' },
+  { id: 3, label: 'Bad', emoji: '😫' },
+];
+
+const STOOL_COLORS = [
+  { id: 'brown', hex: '#8B5A2B', label: 'Brown' },
+  { id: 'green', hex: '#7A9A5B', label: 'Green' },
+  { id: 'yellow', hex: '#D4B856', label: 'Yellow' },
+  { id: 'pale', hex: '#D2C1B0', label: 'Pale' },
+  { id: 'black', hex: '#3B3C36', label: 'Black' },
+  { id: 'red', hex: '#C25A5A', label: 'Red' },
+];
+
+export default function App() {
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedAmount, setSelectedAmount] = useState(null);
+  const [selectedPain, setSelectedPain] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  const handleSave = () => {
+    alert(
+      `Saved Entry!\nType: ${selectedType || '-'}\nAmount: ${selectedAmount || '-'}\nPain: ${selectedPain !== null ? selectedPain : '-'}\nColor: ${selectedColor || '-'}`
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Daily Log</Text>
+        <Text style={styles.subtitle}>Track your gut health</Text>
+      </View>
+
+      <ScrollView style={styles.scrollBody} showsVerticalScrollIndicator={false}>
+        {/* Consistency Section */}
+        <Text style={styles.sectionTitle}>Consistency</Text>
+        <View style={styles.bristolContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+            {BRISTOL_TYPES.map((item) => (
+              <TouchableOpacity 
+                key={item.id} 
+                style={[
+                  styles.typeCard, 
+                  selectedType === item.id && styles.selectedCard
+                ]}
+                onPress={() => setSelectedType(item.id)}
+              >
+                <Text style={[styles.typeName, selectedType === item.id && styles.selectedText]}>
+                  {item.name}
+                </Text>
+                <Text style={[styles.typeDesc, selectedType === item.id && styles.selectedText]}>
+                  {item.desc}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Amount Section */}
+        <Text style={styles.sectionTitle}>Amount</Text>
+        <View style={styles.amountContainer}>
+          {AMOUNTS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.amountPill, 
+                selectedAmount === item.id && styles.selectedAmountPill
+              ]}
+              onPress={() => setSelectedAmount(item.id)}
+            >
+              <Text style={[styles.amountText, selectedAmount === item.id && styles.selectedText]}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Pain Level Section */}
+        <Text style={styles.sectionTitle}>Pain / Discomfort</Text>
+        <View style={styles.painContainer}>
+          {PAIN_LEVELS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.painCard, 
+                selectedPain === item.id && styles.selectedPainCard
+              ]}
+              onPress={() => setSelectedPain(item.id)}
+            >
+              <Text style={styles.emojiText}>{item.emoji}</Text>
+              <Text style={[styles.painLabel, selectedPain === item.id && styles.selectedText]}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Color Section */}
+        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Color</Text>
+        <View style={styles.colorContainer}>
+          {STOOL_COLORS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.colorCircle, 
+                { backgroundColor: item.hex },
+                selectedColor === item.id && styles.selectedColorCircle
+              ]}
+              onPress={() => setSelectedColor(item.id)}
+            />
+          ))}
+        </View>
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.logButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save Entry</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9F9', 
+  },
+  header: {
+    marginTop: 60,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2C3E50',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#7F8C8D',
+    marginTop: 5,
+  },
+  scrollBody: {
+    flex: 1,
+  },
+  bristolContainer: {
+    height: 140, 
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2C3E50',
+    marginBottom: 15,
+    marginLeft: 20,
+  },
+  scrollContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+  },
+  typeCard: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    borderRadius: 15,
+    marginRight: 15,
+    width: 140,
+    height: 120,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedCard: {
+    backgroundColor: '#A3B18A', 
+    borderColor: '#8A9A73',
+  },
+  typeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#34495E',
+    marginBottom: 5,
+  },
+  typeDesc: {
+    fontSize: 13,
+    color: '#7F8C8D',
+    lineHeight: 18,
+  },
+  amountContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  amountPill: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    borderRadius: 25,
+    alignItems: 'center',
+    width: '30%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedAmountPill: {
+    backgroundColor: '#7F8C8D', // A sleek, neutral slate gray
+    borderColor: '#636E72',
+  },
+  amountText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#34495E',
+  },
+  painContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  painCard: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    alignItems: 'center',
+    width: '22%', 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedPainCard: {
+    backgroundColor: '#D4A373', 
+    borderColor: '#BC8A5F',
+  },
+  emojiText: {
+    fontSize: 24,
+    marginBottom: 5,
+  },
+  painLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#7F8C8D',
+  },
+  selectedText: {
+    color: '#FFFFFF',
+  },
+  colorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  colorCircle: {
+    width: 45,
+    height: 45,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    borderWidth: 3,
+    borderColor: 'transparent',
+  },
+  selectedColorCircle: {
+    borderColor: '#2C3E50', 
+    transform: [{ scale: 1.1 }], 
+  },
+  footer: {
+    paddingVertical: 20,
+    paddingBottom: 40,
+    backgroundColor: '#F7F9F9',
+  },
+  logButton: {
+    backgroundColor: '#2C3E50', 
+    paddingVertical: 18,
+    marginHorizontal: 40,
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView, Alert } from 'react-native';
+// This is the new import for our local database
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const BRISTOL_TYPES = [
+  { id: 1, name: 'Type 1', desc: 'Hard lumps, like nuts' },
+  { id: 2, name: 'Type 2', desc: 'Lumpy & sausage-like' },
+  { id: 3, name: 'Type 3', desc: 'Sausage with cracks' },
+  { id: 4, name: 'Type 4', desc: 'Smooth & soft snake' },
+  { id: 5, name: 'Type 5', desc: 'Soft blobs, clear edges' },
+  { id: 6, name: 'Type 6', desc: 'Mushy & fluffy pieces' },
+  { id: 7, name: 'Type 7', desc: 'Entirely liquid' },
+];
+
+const AMOUNTS = [
+  { id: 'small', label: 'Small' },
+  { id: 'medium', label: 'Regular' },
+  { id: 'large', label: 'Large' },
+];
+
+const PAIN_LEVELS = [
+  { id: 0, label: 'None', emoji: '😌' },
+  { id: 1, label: 'Mild', emoji: '😕' },
+  { id: 2, label: 'Medium', emoji: '😣' },
+  { id: 3, label: 'Bad', emoji: '😫' },
+];
+
+const STOOL_COLORS = [
+  { id: 'brown', hex: '#8B5A2B', label: 'Brown' },
+  { id: 'green', hex: '#7A9A5B', label: 'Green' },
+  { id: 'yellow', hex: '#D4B856', label: 'Yellow' },
+  { id: 'pale', hex: '#D2C1B0', label: 'Pale' },
+  { id: 'black', hex: '#3B3C36', label: 'Black' },
+  { id: 'red', hex: '#C25A5A', label: 'Red' },
+];
+
+export default function App() {
+  const [selectedType, setSelectedType] = useState(null);
+  const [selectedAmount, setSelectedAmount] = useState(null);
+  const [selectedPain, setSelectedPain] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  // --- NEW DATABASE LOGIC ---
+  const handleSave = async () => {
+    // 1. Make sure he actually selected at least the main type before saving
+    if (!selectedType) {
+      Alert.alert("Hold up!", "Please select a consistency type first.");
+      return;
+    }
+
+    // 2. Bundle the data with a unique ID and timestamp
+    const newEntry = {
+      id: Date.now().toString(), // Creates a unique ID based on the exact millisecond
+      date: new Date().toISOString(), // Standardized date format
+      type: selectedType,
+      amount: selectedAmount,
+      pain: selectedPain,
+      color: selectedColor,
+    };
+
+    try {
+      // 3. Open the "filing cabinet" and see if there are older logs
+      const existingLogsString = await AsyncStorage.getItem('@gut_logs');
+      const existingLogs = existingLogsString ? JSON.parse(existingLogsString) : [];
+
+      // 4. Add the new log to the list of old logs
+      const updatedLogs = [newEntry, ...existingLogs];
+
+      // 5. Save the whole list back into the phone's storage
+      await AsyncStorage.setItem('@gut_logs', JSON.stringify(updatedLogs));
+
+      // 6. Give him a success message and clear the form for next time!
+      Alert.alert("Success!", "Your daily drop-off has been logged.");
+      setSelectedType(null);
+      setSelectedAmount(null);
+      setSelectedPain(null);
+      setSelectedColor(null);
+
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong saving your data.");
+      console.error(error);
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Daily Log</Text>
+        <Text style={styles.subtitle}>Track your gut health</Text>
+      </View>
+
+      <ScrollView style={styles.scrollBody} showsVerticalScrollIndicator={false}>
+        {/* Consistency Section */}
+        <Text style={styles.sectionTitle}>Consistency</Text>
+        <View style={styles.bristolContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+            {BRISTOL_TYPES.map((item) => (
+              <TouchableOpacity 
+                key={item.id} 
+                style={[
+                  styles.typeCard, 
+                  selectedType === item.id && styles.selectedCard
+                ]}
+                onPress={() => setSelectedType(item.id)}
+              >
+                <Text style={[styles.typeName, selectedType === item.id && styles.selectedText]}>
+                  {item.name}
+                </Text>
+                <Text style={[styles.typeDesc, selectedType === item.id && styles.selectedText]}>
+                  {item.desc}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Amount Section */}
+        <Text style={styles.sectionTitle}>Amount</Text>
+        <View style={styles.amountContainer}>
+          {AMOUNTS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.amountPill, 
+                selectedAmount === item.id && styles.selectedAmountPill
+              ]}
+              onPress={() => setSelectedAmount(item.id)}
+            >
+              <Text style={[styles.amountText, selectedAmount === item.id && styles.selectedText]}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Pain Level Section */}
+        <Text style={styles.sectionTitle}>Pain / Discomfort</Text>
+        <View style={styles.painContainer}>
+          {PAIN_LEVELS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.painCard, 
+                selectedPain === item.id && styles.selectedPainCard
+              ]}
+              onPress={() => setSelectedPain(item.id)}
+            >
+              <Text style={styles.emojiText}>{item.emoji}</Text>
+              <Text style={[styles.painLabel, selectedPain === item.id && styles.selectedText]}>
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Color Section */}
+        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Color</Text>
+        <View style={styles.colorContainer}>
+          {STOOL_COLORS.map((item) => (
+            <TouchableOpacity 
+              key={item.id} 
+              style={[
+                styles.colorCircle, 
+                { backgroundColor: item.hex },
+                selectedColor === item.id && styles.selectedColorCircle
+              ]}
+              onPress={() => setSelectedColor(item.id)}
+            />
+          ))}
+        </View>
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.logButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save Entry</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9F9', 
+  },
+  header: {
+    marginTop: 60,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#2C3E50',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#7F8C8D',
+    marginTop: 5,
+  },
+  scrollBody: {
+    flex: 1,
+  },
+  bristolContainer: {
+    height: 140, 
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2C3E50',
+    marginBottom: 15,
+    marginLeft: 20,
+  },
+  scrollContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+  },
+  typeCard: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    borderRadius: 15,
+    marginRight: 15,
+    width: 140,
+    height: 120,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedCard: {
+    backgroundColor: '#A3B18A', 
+    borderColor: '#8A9A73',
+  },
+  typeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#34495E',
+    marginBottom: 5,
+  },
+  typeDesc: {
+    fontSize: 13,
+    color: '#7F8C8D',
+    lineHeight: 18,
+  },
+  amountContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  amountPill: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    borderRadius: 25,
+    alignItems: 'center',
+    width: '30%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedAmountPill: {
+    backgroundColor: '#7F8C8D', 
+    borderColor: '#636E72',
+  },
+  amountText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#34495E',
+  },
+  painContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  painCard: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    alignItems: 'center',
+    width: '22%', 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedPainCard: {
+    backgroundColor: '#D4A373', 
+    borderColor: '#BC8A5F',
+  },
+  emojiText: {
+    fontSize: 24,
+    marginBottom: 5,
+  },
+  painLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#7F8C8D',
+  },
+  selectedText: {
+    color: '#FFFFFF',
+  },
+  colorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  colorCircle: {
+    width: 45,
+    height: 45,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    borderWidth: 3,
+    borderColor: 'transparent',
+  },
+  selectedColorCircle: {
+    borderColor: '#2C3E50', 
+    transform: [{ scale: 1.1 }], 
+  },
+  footer: {
+    paddingVertical: 20,
+    paddingBottom: 40,
+    backgroundColor: '#F7F9F9',
+  },
+  logButton: {
+    backgroundColor: '#2C3E50', 
+    paddingVertical: 18,
+    marginHorizontal: 40,
+    borderRadius: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+});
